@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.is;
 
 // 3 - classe
 public class Pet {
@@ -27,7 +28,7 @@ public class Pet {
         return new String(Files.readAllBytes(Paths.get(caminhoJson)));
     }
     // incluir - create - post
-    @Test //indentifica como um teste
+    @Test //indentifica como um metodo ou função de teste
     public void incluirPet() throws IOException {
        String jsonBoody = lerJson("db/pet1.json");
 
@@ -43,8 +44,11 @@ public class Pet {
                 .post(uri)
         .then()//então
                 .log().all()
-                .statusCode(200);  // tudo a mesma linha des do given
+                .statusCode(200)  // esta tudo a mesma linha des do given por isso o ; so agora
+                .body("name", is("Thor"))
+                .body("status", is("available"))
 
+                ;
     }
 
 
